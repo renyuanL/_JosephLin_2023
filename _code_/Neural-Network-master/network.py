@@ -1,12 +1,21 @@
+
 def predict(network, input):
-    output = input
+    output= input
     for layer in network:
-        output = layer.forward(output)
+        output= layer.forward(output)
     return output
 
-def train(network, loss, loss_prime, x_train, y_train, epochs = 1000, learning_rate = 0.01, verbose = True):
+def train(network, 
+          loss, 
+          loss_prime, 
+          x_train, 
+          y_train, 
+          epochs= 1_000, 
+          learning_rate= 0.01, 
+          verbose= True):
+    
     for e in range(epochs):
-        error = 0
+        error= 0
         for x, y in zip(x_train, y_train):
             # forward
             output = predict(network, x)

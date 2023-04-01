@@ -23,7 +23,17 @@ class Sigmoid(Activation):
 
         super().__init__(sigmoid, sigmoid_prime)
 
-class Softmax(Layer):
+class Relu(Activation):
+    def __init__(self):
+        def relu(x):
+            return x*(x>=0)
+
+        def relu_prime(x):
+            return 1*(x>=0)
+
+        super().__init__(relu, relu_prime)
+
+class Softmax_000(Layer):
     def forward(self, input):
         tmp = np.exp(input)
         self.output = tmp / np.sum(tmp)
@@ -31,8 +41,13 @@ class Softmax(Layer):
     
     def backward(self, output_gradient, learning_rate):
         # This version is faster than the one presented in the video
-        n = np.size(self.output)
-        return np.dot((np.identity(n) - self.output.T) * self.output, output_gradient)
+        n= np.size(self.output)
+        
+        return np.dot(
+            (np.identity(n) - self.output.T) * self.output, 
+            output_gradient)
+        # 這段要小心，可能有錯，待驗證。
+    
         # Original formula:
         # tmp = np.tile(self.output, n)
         # return np.dot(tmp * (np.identity(n) - np.transpose(tmp)), output_gradient)
