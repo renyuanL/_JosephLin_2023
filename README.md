@@ -8,6 +8,7 @@
 2023.04.08:
 ## Back-propagation in CNN
 - https://www.jefkine.com/general/2016/09/05/backpropagation-in-convolutional-neural-networks/
+![](https://www.jefkine.com/assets/images/conv.png)
 
 ## Introduction to PyTorch
 - https://learn.microsoft.com/en-us/training/paths/pytorch-fundamentals/
