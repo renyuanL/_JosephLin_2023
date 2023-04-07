@@ -67,13 +67,27 @@ class ActivationLayer(Layer):
     def __init__(self, f, f_prime):
         self.f= f
         self.f_prime= f_prime
-    def forward(self, x):
-        self.x= x
-        self.y= self.f(x)
+
+    def forward(self, z):
+        self.z= z
+        self.y= self.f(z)
         return self.y
+    
     def backward(self, de_y, eta= None):
-        de_x= de_y * self.f_prime(self.x) 
-        return de_x
+        
+        # de_z= de_y * self.f_prime(self.z)
+        
+        # element-wise multiplication 
+        # is equivalent to 
+        # matrix multiplication with a diagonal matrix
+        # which is faster?
+        # https://stackoverflow.com/questions/32109319/how-to-efficiently-calculate-a-hadamard-product-in-numpy
+        
+
+        de_z= de_y @ np.diag(
+            self.f_prime(self.y))
+
+        return de_z
 
 class FCLayer(Layer):
     def __init__(self, I, J):
@@ -89,11 +103,11 @@ class FCLayer(Layer):
     def forward(self, x):
         '''
         x: input,  shape=(N, I)
-        y: output, shape=(N, J)
+        z: output, shape=(N, J)
         '''
         self.x=  x
-        self.y= self.x @ self.W + self.b
-        return self.y
+        self.z= self.x @ self.W + self.b
+        return self.z
     
     def backward(self, de_y, eta):
         '''

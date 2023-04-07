@@ -1,0 +1,119 @@
+---
+title: "MLP forwards/backwards"
+format: html
+---
+
+## MLP forwards/backwards mathematical derivation
+
+This is a mathematical derivation of the MLP forward and backward propagation equations. 
+
+(1) [Wikipedia article](https://en.wikipedia.org/wiki/Backpropagation) 
+(2) [Neural Networks and Deep Learning book](http://neuralnetworksanddeeplearning.com/chap2.html).
+
+### Forward propagation
+
+The forward propagation can be written as:
+
+
+- vectorized version
+$$
+\begin{flalign*}
+\vec{z} &= L(\vec{x};W,\vec{b}) \quad = \vec{x} @ W  + \vec{b} \\
+\vec{y} &= f(\vec{z})           \quad = tanh(\vec{z}) \\
+\end{flalign*}
+$$
+
+- non-vectorized (indexed) version
+$$
+\begin{flalign*}
+z_{j} &= L(x_i; w_{ij},b_j, \forall i) = \sum_{i} x_i \cdot w_{ij}\\
+y_j &= f(z_j) = tanh(z_j) \\
+\end{flalign*}
+$$
+
+- sum squared error
+
+$$
+\begin{flalign*}
+e &= E(y_j; y_j^*, \forall j)= \frac{1}{2} \sum_{j} (y_j - y_j^*)^2 \\
+\end{flalign*}
+$$
+
+- backpropagation
+
+$$
+\begin{flalign*}
+\frac{\partial e}{\partial y_j}
+&= y_j-y^*_j 
+\\
+\frac{\partial e}{\partial z_j}
+&=
+\frac{\partial e}{\partial y_j} 
+\frac{\partial y_j}{\partial z_j} 
+\\
+&=
+\frac{\partial e}{\partial y_j} 
+f'(z_j) 
+\\
+\frac{\partial e}{\partial w_{ij}} 
+&=  
+\frac{\partial e}{\partial z_j} 
+\frac{\partial z_j}{\partial w_{ij}} 
+\\
+&= 
+\frac{\partial e}{\partial z_j} \cdot x_i 
+\\
+\frac{\partial e}{\partial b_j} 
+&=
+\frac{\partial e}{\partial z_j} 
+\frac{\partial z_j}{\partial b_j} 
+\\
+&= 
+\frac{\partial e}{\partial z_j} \cdot 1 
+\\
+\frac{\partial e}{\partial x_i}
+&=  
+\sum_{j}\frac{\partial e}{\partial z_j}
+\frac{\partial z_j}{\partial x_i} \\
+&= 
+\sum_{j}\frac{\partial e}{\partial z_j} 
+\cdot w_{ij} 
+\\
+\end{flalign*}
+$$
+
+
+- vectorized version
+
+- forward propagation @ layer $l$
+
+$$
+\begin{flalign*}
+&\vec{x}=\vec{y}^{(l-1)} \\
+&\vec{z}=\vec{x} @ W + \vec{b} \\
+&\vec{y}= f(\vec{z}) \\
+\end{flalign*}
+$$
+
+
+- backward propagation @ layer $l$
+
+$$
+\begin{flalign*}
+&\frac{\partial e}{\partial \vec{y}}= \frac{\partial e}{\partial \vec{x}^{(l+1)}} 
+\\
+&\frac{\partial e}{\partial \vec{z}}=\frac{\partial e}{\partial \vec{y}} \odot f'(\vec{z}) \\ 
+&\frac{\partial e}{\partial W}=\vec{x}^T @ \frac{\partial e}{\partial \vec{z}} \\
+&\frac{\partial e}{\partial \vec{b}}=\frac{\partial e}{\partial \vec{z}} \\
+&\frac{\partial e}{\partial \vec{x}}=\frac{\partial e}{\partial \vec{z}} @ W^T \\
+\end{flalign*}
+$$
+
+
+
+
+
+
+
+
+
