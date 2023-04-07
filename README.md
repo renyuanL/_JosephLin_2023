@@ -24,3 +24,6 @@ $$
 
 ## Introduction to Computer Vision with PyTorch
 - https://learn.microsoft.com/en-us/training/modules/intro-computer-vision-pytorch/
+
+## Speech Recognition
+- https://pytorch.org/audio/stable/tutorials/speech_recognition_pipeline_tutorial.html
