@@ -1,0 +1,24 @@
+
+
+$$
+\begin{align}
+& x_{i,j}^l = \sum_{m,n} w_{m,n}^l o_{i+m,j+n}^{l-1} + b_{i,j}^l \\
+& o_{i,j}^l = f(x_{i,j}^l) 
+\end{align} 
+$$
+
+$$
+\begin{align}
+\frac{\partial E}{\partial x_{i,j}^{(l)}} &= \sum_{m,n}\delta^{(l+1)}_{i - m,j - n} w_{m,n}^{(l+1)} f'\left(x_{i,j}^{(l)}\right) \\
+& = \text{rot}_{180^\circ} \left\{ \sum_{m,n}\delta^{(l+1)}_{i + m,j + n} w_{m,n}^{(l+1)} \right\} f'\left(x_{i,j}^{(l)}\right) \\
+&= \delta^{(l+1)}_{i,j} \ast \text{rot}_{180^\circ} \left\{ w_{m,n}^{(l+1)} \right\} f'\left(x_{i,j}^{(l)} \right)
+\end{align} 
+$$
+
+$$
+\begin{align}
+\delta^{l}_{i,j} &= \frac{\partial E}{\partial x_{i,j}^{l}} \tag {15}
+\end{align}
+$$
+
+
