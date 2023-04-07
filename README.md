@@ -13,7 +13,7 @@
 
 $$
 \begin{flalign*}
-& z_{i,j}^{(l)} = \sum_{m,n} w_{m,n}^{(l)} x_{m+i, n+j}^{(l)} + b_{i,j}^{(l)} \\
+& z_{i,j}^{(l)} = \sum_{m,n} w_{m,n}^{(l)} \cdot x_{m+i, n+j}^{(l)} + b_{i,j}^{(l)} \\
 & y_{i,j}^{(l)} = f(z_{i,j}^{(l)}) \\
 & x_{i,j}^{(l+1)}= y_{i,j}^{(l)} 
 \end{flalign*}
