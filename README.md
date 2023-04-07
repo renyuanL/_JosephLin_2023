@@ -11,6 +11,12 @@
 
 ![](https://www.jefkine.com/assets/images/conv.png)
 
+$$
+\begin{align}
+x_{i,j}^l = \sum_{m}\sum_{n} w_{m,n}^l o_{i + m,j + n}^{l-1} + b^l
+\end{align}
+$$
+
 ## Introduction to PyTorch
 - https://learn.microsoft.com/en-us/training/paths/pytorch-fundamentals/
 
