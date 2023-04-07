@@ -12,9 +12,10 @@
 ![](https://www.jefkine.com/assets/images/conv.png)
 
 $$
-\begin{align}
-x_{i,j}^l = \sum_{m}\sum_{n} w_{m,n}^l o_{i + m,j + n}^{l-1} + b^l
-\end{align}
+\begin{flalign*}
+x_{i,j}^(l) = \sum_{m,n} w_{m,n}^(l) o_{i + m, j + n}^{(l-1)} + b_{i,j}^(l)
+o_{i, j}^{(l)} = f(x_{i,j}^(l))
+\end{flalign*}
 $$
 
 ## Introduction to PyTorch
