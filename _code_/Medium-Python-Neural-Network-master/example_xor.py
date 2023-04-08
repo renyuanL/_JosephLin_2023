@@ -18,7 +18,7 @@ y_train= np.array([
     [[1]], 
     [[1]], 
     [[0]]])
-
+#%%
 # network
 net= Network()
 
