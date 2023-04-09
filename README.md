@@ -30,3 +30,4 @@ $$
 
 ## CNN: a good tutorial
 - https://hackernoon.com/the-full-story-behind-convolutional-neural-networks-and-the-math-behind-it-2j4fk3zu2
+- https://github.com/SkalskiP/ILearnDeepLearning.py
