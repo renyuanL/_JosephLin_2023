@@ -28,7 +28,11 @@ $$
 ## Speech Recognition
 - https://pytorch.org/audio/stable/tutorials/speech_recognition_pipeline_tutorial.html
 - [SPEECH COMMAND CLASSIFICATION WITH TORCHAUDIO](https://machinelearningleague.github.io/pytorch-tutorials/intermediate/speech_command_recognition_with_torchaudio.html)
+- [VERY DEEP CONVOLUTIONAL NEURAL NETWORKS FOR RAW WAVEFORMS](https://arxiv.org/pdf/1610.00087.pdf)
+
+![image](https://user-images.githubusercontent.com/6368761/232249205-bb44ecfb-d008-441e-b65f-1bcee2757aca.png)
 
 ## CNN: a good tutorial
 - https://hackernoon.com/the-full-story-behind-convolutional-neural-networks-and-the-math-behind-it-2j4fk3zu2
 - https://github.com/SkalskiP/ILearnDeepLearning.py
+
