@@ -38,3 +38,7 @@ $$
 
 ![LeNet](https://pytorch.org/tutorials/_images/mnist.png)
 
+## CNN in Tensorflow
+- using mini Speech Commands dataset
+- https://github.com/renyuanL/_JosephLin_2023/blob/main/simple_audio_ry_do_some_modification_for_tutoring.ipynb
+
