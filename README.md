@@ -42,3 +42,6 @@ $$
 - using mini Speech Commands dataset
 - https://github.com/renyuanL/_JosephLin_2023/blob/main/simple_audio_ry_do_some_modification_for_tutoring.ipynb
 
+## From Mlp --> CNN (LeNet-5) @ MNIST in Pytorch 
+- https://github.com/renyuanL/_JosephLin_2023/blob/main/ry_MLP_CNN_LeNet_MNIST.ipynb
+
