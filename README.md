@@ -45,3 +45,6 @@ $$
 ## From Mlp --> CNN (LeNet-5) @ MNIST in Pytorch 
 - https://github.com/renyuanL/_JosephLin_2023/blob/main/ry_MLP_CNN_LeNet_MNIST.ipynb
 
+## CNN in Pytorch, Speech Commands dataset, Raw Waveform, no Spectrogram
+- https://github.com/renyuanL/_JosephLin_2023/blob/main/_ry_SPEECH_COMMAND_CLASSIFICATION_WITH_TORCHAUDIO.ipynb
+
