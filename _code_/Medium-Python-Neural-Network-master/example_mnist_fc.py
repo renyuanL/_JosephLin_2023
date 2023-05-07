@@ -33,24 +33,27 @@ y_test = np_utils.to_categorical(y_test)
 f=       sigmoid
 f_prime= sigmoid_prime
 
+for [f, f_prime] in [[tanh, tanh_prime],
+                     [sigmoid, sigmoid_prime],
+                     [relu, relu_prime]]:
 
-net = Network()
-net.add(FCLayer(28*28, 100))                # input_shape=(1, 28*28)    ;   output_shape=(1, 100)
-net.add(ActivationLayer(f, f_prime))
-net.add(FCLayer(100, 50))                   # input_shape=(1, 100)      ;   output_shape=(1, 50)
-net.add(ActivationLayer(f, f_prime))
-net.add(FCLayer(50, 10))                    # input_shape=(1, 50)       ;   output_shape=(1, 10)
-net.add(ActivationLayer(f, f_prime))
+    net = Network()
+    net.add(FCLayer(28*28, 100))                # input_shape=(1, 28*28)    ;   output_shape=(1, 100)
+    net.add(ActivationLayer(f, f_prime))
+    net.add(FCLayer(100, 50))                   # input_shape=(1, 100)      ;   output_shape=(1, 50)
+    net.add(ActivationLayer(f, f_prime))
+    net.add(FCLayer(50, 10))                    # input_shape=(1, 50)       ;   output_shape=(1, 10)
+    net.add(ActivationLayer(f, f_prime))
 
-# train on 1000 samples
-# as we didn't implemented mini-batch GD, training will be pretty slow if we update at each iteration on 60000 samples...
-net.use(mse, mse_prime)
-net.fit(x_train[0:1000], y_train[0:1000], epochs=35, learning_rate=0.1)
+    # train on 1000 samples
+    # as we didn't implemented mini-batch GD, training will be pretty slow if we update at each iteration on 60000 samples...
+    net.use(mse, mse_prime)
+    net.fit(x_train[0:1000], y_train[0:1000], epochs=35, learning_rate=0.1)
 
-# test on 3 samples
-out = net.predict(x_test[0:3])
-print("\n")
-print("predicted values : ")
-print(out, end="\n")
-print("true values : ")
-print(y_test[0:3])
+    # test on 3 samples
+    out = net.predict(x_test[0:3])
+    print("\n")
+    print("predicted values : ")
+    print(out, end="\n")
+    print("true values : ")
+    print(y_test[0:3])
