@@ -51,4 +51,6 @@ $$
 ## the Speech Commands Dataset
 - https://arxiv.org/pdf/1804.03209.pdf
 
+## the recognition program of speech commands
+- https://github.com/renyuanL/_JosephLin_2023/blob/main/_ry_01_recog_01_py.ipynb
 
