@@ -48,3 +48,7 @@ $$
 ## CNN in Pytorch, Speech Commands dataset, Raw Waveform, no Spectrogram
 - https://github.com/renyuanL/_JosephLin_2023/blob/main/_ry_SPEECH_COMMAND_CLASSIFICATION_WITH_TORCHAUDIO.ipynb
 
+## the Speech Commands Dataset
+- https://arxiv.org/pdf/1804.03209.pdf
+
+
