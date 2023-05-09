@@ -1,5 +1,5 @@
 '''
-_ry_01_speech_command_classification_with_torchaudio_tutorial.ipynb.py
+_ry_02_train.py
 '''
 
 #%%
@@ -25,7 +25,7 @@ print(device)
 from torchaudio.datasets import SPEECHCOMMANDS
 import os
 
-data_path= "D:/_ryDatasets"
+data_path= "/_ryDatasets"
 # check if the dircetory exists, if not, make it
 if not os.path.isdir(data_path):
     os.mkdir(data_path)
@@ -51,38 +51,15 @@ class SubsetSC(SPEECHCOMMANDS):
 
 
 # Create training and testing split of the data. We do not use validation in this tutorial.
-train_set = SubsetSC("training")
-test_set = SubsetSC("testing")
+train_set= SubsetSC("training")
+test_set=  SubsetSC("testing")
+val_set=   SubsetSC("validation")
 
 waveform, sample_rate, label, speaker_id, utterance_number = train_set[0]
 
-labels= [
- 'backward', 'bed',     'bird',     'cat',      'dog',
- 'down',    'eight',    'five',     'follow',   'forward',
- 'four',    'go',       'happy',    'house',    'learn',
- 'left',    'marvin',   'nine',     'no',       'off',
- 'on',      'one',      'right',    'seven',    'sheila',
- 'six',     'stop',     'three',    'tree',     'two',
- 'up',      'visual',   'wow',      'yes',      'zero'
-]
+from ryModels import theLabels, label_to_index, index_to_label
 
-# %%
-def label_to_index(word):
-    # Return the position of the word in labels
-    return torch.tensor(labels.index(word))
-
-
-def index_to_label(index):
-    # Return the word corresponding to the index in labels
-    # This is the inverse of label_to_index
-    return labels[index]
-
-
-word_start = "yes"
-index = label_to_index(word_start)
-word_recovered = index_to_label(index)
-
-print(word_start, "-->", index, "-->", word_recovered)
+labels= theLabels
 
 
 # %%
@@ -129,8 +106,19 @@ train_loader = torch.utils.data.DataLoader(
     num_workers=num_workers,
     pin_memory=pin_memory,
 )
+
 test_loader = torch.utils.data.DataLoader(
     test_set,
+    batch_size=batch_size,
+    shuffle=False,
+    drop_last=False,
+    collate_fn=collate_fn,
+    num_workers=num_workers,
+    pin_memory=pin_memory,
+)
+
+val_loader = torch.utils.data.DataLoader(
+    val_set,
     batch_size=batch_size,
     shuffle=False,
     drop_last=False,
@@ -142,91 +130,16 @@ test_loader = torch.utils.data.DataLoader(
 #%%
 
 #%%
+#
+# Move it out to another file, for both training and testing
+#
 
-class ryM(nn.Module):
-    def __init__(self, 
-                 in_chs=   1,  #  1 channel, mono waveform
-                 out_cls= 35,  # 35 words as output classes
-                 sample_rate=  16_000 # sample rate of the audio file
-                 ):
-        
-        super().__init__()
-
-        new_sample_rate= sample_rate//2 #8_000
-
-        self.transform= torchaudio.transforms.Resample(
-            orig_freq= sample_rate, 
-            new_freq=  new_sample_rate)
-
-        self.act=  nn.ReLU()
-        self.flat= nn.Flatten()
-        self.out=  nn.LogSoftmax(dim=-1)
-        #self.out=  nn.Softmax(dim=-1)
-
-        k1= int(.02* new_sample_rate) # 160 # 20ms
-        s1= int(.01* new_sample_rate) #  80 # 10ms
-        ch1= 64 # 64 channels in 1st convolution layer
-
-        k2= 4 # kernel size in the other conv layer
-        s2= 2 # stride in the other conv layer
-
-        self.conv1= nn.Conv1d(in_chs, ch1,   kernel_size= k1, stride= s1) 
-        self.bn1=   nn.BatchNorm1d(ch1)
-
-        self.conv2= nn.Conv1d(ch1,  ch1 *2,  kernel_size= k2, stride= s2)
-        self.bn2=   nn.BatchNorm1d(ch1 *2)
-
-        self.conv3= nn.Conv1d(ch1 *2, ch1 *4, kernel_size= k2, stride= s2)
-        self.bn3=   nn.BatchNorm1d(ch1 *4)
-
-        self.conv4= nn.Conv1d(ch1 *4, ch1 *4, kernel_size= k2, stride= s2)
-        self.bn4=   nn.BatchNorm1d(ch1 *4)
-
-        self.conv5= nn.Conv1d(ch1 *4, ch1 *2, kernel_size= k2, stride= s2)
-        self.bn5=   nn.BatchNorm1d(ch1 *2)
-        
-        self.fc1= nn.Linear(ch1 *2, ch1)
-        self.fc2= nn.Linear(ch1,    out_cls)
-
-    def forward(self, x):
-        
-        x= self.transform(x) # (1,16000) -> (1,8000) # downsample by factor of 2
-
-        #  CNNs
-        x= self.conv1(x) # (1, 8000) -> (64, 99)
-        x= self.bn1(x)   
-        x= self.act(x)   
-        
-        x= self.conv2(x) # (64, 99) -> (128, 48)
-        x= self.bn2(x)   
-        x= self.act(x)   
-        
-        x= self.conv3(x) # (128, 48) -> (256, 23)
-        x= self.bn3(x)   
-        x= self.act(x)   
-       
-        x= self.conv4(x) # (256, 23) -> (256, 10)
-        x= self.bn4(x)   
-        x= self.act(x)
-
-        x= self.conv5(x) # (256, 10) -> (128, 4)
-        x= self.bn5(x)   
-        x= self.act(x)   
-        
-        # global average pooling
-        x= F.avg_pool1d(x, x.shape[-1])  # -> (128, 1)
-        x= self.flat(x) # -> (128)
-
-        # MLPs
-        x= self.fc1(x)  # -> (64)
-        x= self.act(x)  # -> (64)
-
-        x= self.fc2(x)  # -> (35)
-        y= self.out(x)  # -> (35)
-
-        return y
+from ryModels import ryM10 as ryM
 
 model= ryM(in_chs= 1, out_cls=35)
+
+# ryM2 Test@epoch= 15, acc=【0.8678】, [9550/11005]
+# Number of parameters: 590_563
 
 # ryM, Test@epoch= 13, acc=【0.8706】, [9581/11005]
 
@@ -242,8 +155,10 @@ model= ryM(in_chs= 1, out_cls=35)
 # load the weights
 # check the availability of "model.pt"
 #'''
-if os.path.isfile('model.pt'):
-    model.load_state_dict(torch.load('model.pt'))
+model_fn= 'ryM.pt'
+
+#if os.path.isfile(model_fn):
+#    model.load_state_dict(torch.load(model_fn))
 #'''
 #%%
 
@@ -302,10 +217,23 @@ def get_likely_index(tensor):
     # find most likely label index for each element in the batch
     return tensor.argmax(dim=-1)
 
-def test(model, epoch=1):
+def test(model, epoch=1, test_or_val= 'val'):
     model.eval()
     correct = 0
-    for data, target in test_loader:
+
+    #loader= (test_loader if test_or_val=='test' else 
+    #         val_loader)
+    
+    if test_or_val=='test':
+        loader= test_loader
+    elif test_or_val=='val':
+        loader= val_loader
+    elif test_or_val=='train':
+        loader= train_loader
+    else:
+        raise ValueError("test_or_val must be 'test' or 'val' or 'train'")
+
+    for data, target in loader:
 
         data=   data.to(device)
         target= target.to(device)
@@ -318,17 +246,17 @@ def test(model, epoch=1):
         correct += number_of_correct(pred, target)
 
         # update progress bar
-        pbar.update(pbar_update)
+        #pbar.update(pbar_update)
 
-    acc= correct/len(test_loader.dataset)
-    print(f"\nTest@{epoch= }, acc=【{acc:.4f}】, [{correct}/{len(test_loader.dataset)}]\n")
+    acc= correct/len(loader.dataset)
+    print(f"\nTest@{epoch= }, acc=【{acc:.4f}】, [{correct}/{len(loader.dataset)}]\n")
     
     return acc
 
 # %%
-log_interval= 100
-test_interval= 5
-n_epoch=       30
+log_interval=  100
+test_interval=   5
+n_epoch=        30
 
 pbar_update = 1 / (len(train_loader) + len(test_loader))
 lossL= []
@@ -343,9 +271,8 @@ with tqdm(total=n_epoch) as pbar:
             acc= test(model, epoch)
             accL += [acc]
             if acc >= max(accL):
-                torch.save(model.state_dict(), "model.pt")
+                torch.save(model.state_dict(), model_fn)
             
-
         scheduler.step()
 #%%
 # finally, test the model on the test set
@@ -353,11 +280,11 @@ with tqdm(total=n_epoch) as pbar:
 acc= test(model)
 accL += [acc]
 if acc >= max(accL):
-    torch.save(model.state_dict(), "model.pt")
+    torch.save(model.state_dict(), model_fn)
 
 
 # %%
-
+'''
 # plot the loss
 plt.figure()
 plt.subplot(1,2,1)
@@ -370,9 +297,9 @@ plt.ylabel("loss")
 plt.subplot(1,2,2)
 plt.plot(accL)
 plt.xlabel(f"epoch/{test_interval}")
-plt.ylabel("accuracy")
+plt.ylabel("Val accuracy")
 plt.show()
-
+'''
 # %%
 
 # initialize the model
@@ -384,27 +311,37 @@ mdl.to(device)
 # get the directory of the current file
 # dir= os.path.dirname(os.path.abspath(__file__))
 # get the path to the file
-path= 'model.pt' #os.path.join(dir, 'model.pt')
+path= model_fn #os.path.join(dir, 'model.pt')
 
 mdl.load_state_dict(torch.load(path))
 
 # %%
 # test the model
 mdl.eval()
-correct = 0
-with torch.no_grad():
-    for data, target in test_loader:
 
-        data=   data.to(device)
-        target= target.to(device)
+acc_val= test(mdl, test_or_val='val')
+print(f'Val accuracy: {acc_val:.4f}')
 
-        # apply transform and model on whole batch directly on device
-        # data = transform(data)
-        output= mdl(data)
+acc_test= test(mdl, test_or_val='test')
+print(f'Test accuracy: {acc_test:.4f}')
 
-        pred = get_likely_index(output)
-        correct += number_of_correct(pred, target)
 
-acc= correct/len(test_loader.dataset)
-print(f"\n{acc= :.4f}, [{correct}/{len(test_loader.dataset)}]\n")
+# %%
+'''
+Test@epoch= 1, acc=【0.8835】, [8818/9981]
+Val accuracy: 0.8835
 
+Test@epoch= 1, acc=【0.8722】, [9599/11005]
+Test accuracy: 0.8722
+'''
+#%%
+#%%
+#### just for fun, test the model on the training set
+acc_train= test(mdl, test_or_val='train')
+print(f'Train accuracy: {acc_train:.4f}')
+'''
+Test@epoch= 1, acc=【0.9596】, [81419/84843]
+Train accuracy: 0.9596
+'''
+
+# %%
