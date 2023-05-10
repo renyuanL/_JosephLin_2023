@@ -27,3 +27,33 @@ $$
 
 ## Speech Recognition
 - https://pytorch.org/audio/stable/tutorials/speech_recognition_pipeline_tutorial.html
+- [SPEECH COMMAND CLASSIFICATION WITH TORCHAUDIO](https://machinelearningleague.github.io/pytorch-tutorials/intermediate/speech_command_recognition_with_torchaudio.html)
+- [VERY DEEP CONVOLUTIONAL NEURAL NETWORKS FOR RAW WAVEFORMS](https://arxiv.org/pdf/1610.00087.pdf)
+
+![image](https://user-images.githubusercontent.com/6368761/232249205-bb44ecfb-d008-441e-b65f-1bcee2757aca.png)
+
+## CNN: a good tutorial
+- https://hackernoon.com/the-full-story-behind-convolutional-neural-networks-and-the-math-behind-it-2j4fk3zu2
+- https://github.com/SkalskiP/ILearnDeepLearning.py
+
+![LeNet](https://pytorch.org/tutorials/_images/mnist.png)
+
+## CNN in Tensorflow
+- using mini Speech Commands dataset
+- https://github.com/renyuanL/_JosephLin_2023/blob/main/simple_audio_ry_do_some_modification_for_tutoring.ipynb
+
+## From Mlp --> CNN (LeNet-5) @ MNIST in Pytorch 
+- https://github.com/renyuanL/_JosephLin_2023/blob/main/ry_MLP_CNN_LeNet_MNIST.ipynb
+
+## CNN in Pytorch, Speech Commands dataset, Raw Waveform, no Spectrogram
+- https://github.com/renyuanL/_JosephLin_2023/blob/main/_ry_SPEECH_COMMAND_CLASSIFICATION_WITH_TORCHAUDIO.ipynb
+
+## the Speech Commands Dataset
+- https://arxiv.org/pdf/1804.03209.pdf
+
+## the recognition program of speech commands
+- https://github.com/renyuanL/_JosephLin_2023/blob/main/_ry_01_recog_01_py.ipynb
+
+## the training program of speech commands
+- https://github.com/renyuanL/_JosephLin_2023/blob/main/_ry_01_speech_command_classification_with_torchaudio_tutorial.ipynb
+

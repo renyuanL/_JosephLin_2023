@@ -25,7 +25,7 @@ print(device)
 from torchaudio.datasets import SPEECHCOMMANDS
 import os
 
-data_path= "/_ryDatasets"
+data_path= "C:/_ryDatasets"
 # check if the dircetory exists, if not, make it
 if not os.path.isdir(data_path):
     os.mkdir(data_path)

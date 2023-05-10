@@ -26,15 +26,8 @@ from tqdm import tqdm
 # 4. visualize the recognition result
 # 5. do some analysis
 
-#"https://drive.google.com/file/d/1-3JF7rhFBpfajaIM-_NjKgg8WXHJ_fP9/view?usp=share_link"
-#"https://drive.google.com/file/d/1-3_AWSuw9m195PKgixouOR_2LDr_bAEE/view?usp=share_link"
-# get data from link above
-#### !gdown --id 1-3JF7rhFBpfajaIM-_NjKgg8WXHJ_fP9
-#### !gdown --id 1-3_AWSuw9m195PKgixouOR_2LDr_bAEE
 
 import os
-#os.system('gdown --id 1-3JF7rhFBpfajaIM-_NjKgg8WXHJ_fP9')
-#os.system('gdown --id 1-3_AWSuw9m195PKgixouOR_2LDr_bAEE')
 
 #  display the data
 fn_wav= 'ry35words.wav'
