@@ -15,12 +15,36 @@ theLabels= [
  'up',      'visual',   'wow',      'yes',      'zero'
 ]
 
+漢字表= [
+ '零', '一', '二', '三', '四',
+ '五', '六', '七', '八', '九',
+ '是', '否', '去',  '停', '哇', 
+ '開機', '關機', '前進', '後退', 
+ '向上', '向下', '向左', '向右',
+ '樹', '屋', '床', '貓', '狗', '鳥', 
+ '看見', '跟隨', '學習', '快樂', 
+ '馬文', '席拉' 
+]
+
 def label_to_index(label):
     return torch.tensor(theLabels.index(label))
 
 def index_to_label(index):
     return theLabels[index]
 
+#%%
+
+#def get_likely_index(tensor):
+#    # find most likely label index for each element in the batch
+#    return tensor.argmax(dim=-1)
+
+def get_likely_index(tensor):
+    # find most likely label index for each element in the batch
+    return tensor.max(axis=-1).indices
+
+def get_likely_score(tensor):
+    # find most likely label index for each element in the batch
+    return tensor.max(axis=-1).values
 
 
 
@@ -131,7 +155,7 @@ ryM2(
   (fc2): Linear(in_features=64, out_features=35, bias=True)
 )
 '''
-# Number of parameters: 590_563
+# Number of parameters: 590_563 vs 1_500_000_000 (1.5G) for VGG16
 '''
 Test@epoch= 30, acc=【0.8782】, [8765/9981]
  88%|███████████████████████████████████▎    | 26.48936170212732/30 [15:59<02:07, 36.24s/it] 
@@ -157,6 +181,7 @@ Test@epoch= 1, acc=【0.9612】, [81549/84843]
 
 
 #%%
+'''
 xB= torch.randn((10, 16_000))
 xB= xB.cuda()
 X_mt= melsgram= \
@@ -164,6 +189,7 @@ torchaudio\
 .transforms\
 .MelSpectrogram().to('cuda')(xB)
 X_mt.shape # torch.Size([10, 128, 81])
+'''
 # %%
 
 class ryM3(nn.Module):

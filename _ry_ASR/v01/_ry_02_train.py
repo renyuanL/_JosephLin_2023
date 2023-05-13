@@ -156,6 +156,7 @@ model= ryM(in_chs= 1, out_cls=35)
 # check the availability of "model.pt"
 #'''
 model_fn= 'ryM.pt'
+model_jit_fn= 'ryJitM.pt'
 
 #if os.path.isfile(model_fn):
 #    model.load_state_dict(torch.load(model_fn))
@@ -281,6 +282,26 @@ acc= test(model)
 accL += [acc]
 if acc >= max(accL):
     torch.save(model.state_dict(), model_fn)
+
+#%%
+# save the trained model in torchscript format
+#torch.jit.save(model, "md2.pt")
+
+model_jit= torch.jit.script(model) # Export to TorchScript
+model_jit.save(model_jit_fn) # Save the TorchScript model
+
+
+#%%
+# load the trained model
+md2= torch.jit.load(model_jit_fn)
+md2.eval()
+md2.to(device)
+
+md2
+#%%
+# test the model on the test set
+acc= test(md2)
+acc
 
 
 # %%
