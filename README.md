@@ -57,3 +57,5 @@ $$
 ## the training program of speech commands
 - https://github.com/renyuanL/_JosephLin_2023/blob/main/_ry_01_speech_command_classification_with_torchaudio_tutorial.ipynb
 
+## using Open-AI whisper
+- https://github.com/renyuanL/_JosephLin_2023/blob/main/_ry_04_6_whisper.ipynb
