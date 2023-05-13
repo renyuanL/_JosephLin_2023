@@ -59,3 +59,6 @@ $$
 
 ## using Open-AI whisper
 - https://github.com/renyuanL/_JosephLin_2023/blob/main/_ry_04_6_whisper.ipynb
+### official site
+- https://openai.com/research/whisper
+- ![](https://raw.githubusercontent.com/openai/whisper/main/approach.png)
