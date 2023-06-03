@@ -115,14 +115,18 @@ print(mdl)
 # load the waveform
 
 t0= 0 #16_000*10
-x= waveform[:, t0:t0+16_000*5] # 5 seconds
+x= waveform[t0, t0:t0+16_000*5] # 5 seconds
 x= x.squeeze() # (1,80000) -> (80000)
-
+#%%
 xB= x.reshape(-1,1,16000)
 xB= xB.cuda()
-y=  mdl(xB)
+
+y=  mdl(xB)  ######## 
+
 y=  y.squeeze()
+
 y=  y.argmax(dim=-1)
+
 y=  [index_to_label(q) for q in y]
 y
 
@@ -197,7 +201,7 @@ if chunks[-1].shape[0] < chunk_size:
         axis=0)
 
 print(f'{chunks[-1].shape= }')
-
+#%%
 xB= torch.stack(chunks, axis=0)
 xB= xB.permute(0,2,1)
 xB= xB.to(device)
@@ -257,7 +261,7 @@ xB= w4.unsqueeze(1)
 xB.shape
 
 xB= xB.to(device)
-
+#%%
 # recognize the waveform
 with torch.no_grad():
     yB= mdl(xB)
