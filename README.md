@@ -62,3 +62,9 @@ $$
 ### official site
 - https://openai.com/research/whisper
 - ![](https://raw.githubusercontent.com/openai/whisper/main/approach.png)
+
+## End-to-End Speech Recognition: A Survey
+- https://arxiv.org/pdf/2303.03329.pdf
+
+## Recent Advances in End-to-End Automatic Speech Recognition
+- https://arxiv.org/pdf/2111.01690.pdf
