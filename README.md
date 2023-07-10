@@ -72,3 +72,4 @@ $$
 ## Prompting the Hidden Talent of Web-Scale Speech Models for Zero-Shot Task Generalization, [Submitted on 18 May 2023] 
 - https://arxiv.org/abs/2305.11095
 - https://arxiv.org/pdf/2305.11095.pdf
+  ![image](https://github.com/renyuanL/_JosephLin_2023/assets/6368761/24a729e0-d5aa-4e59-8a2d-0591463db981)
