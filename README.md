@@ -68,3 +68,7 @@ $$
 
 ## Recent Advances in End-to-End Automatic Speech Recognition
 - https://arxiv.org/pdf/2111.01690.pdf
+
+## Prompting the Hidden Talent of Web-Scale Speech Models for Zero-Shot Task Generalization, [Submitted on 18 May 2023] 
+- https://arxiv.org/abs/2305.11095
+- https://arxiv.org/pdf/2305.11095.pdf
